@@ -66,6 +66,7 @@ const LevelScript level_main_scripts_entry[] = {
     LOAD_RAW_WITH_CODE( /*seg*/ SEGMENT_BEHAVIOR_DATA,    _behaviorSegmentRomStart,     _behaviorSegmentRomEnd,   _behaviorSegmentBssStart,     _behaviorSegmentBssEnd),
     ALLOC_LEVEL_POOL(),
     LOAD_MODEL_FROM_GEO(MODEL_MARIO,                   mario_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_ACT_SELECT_RECTS,        actSelectRect_geo),
     LOAD_MODEL_FROM_GEO(MODEL_SMOKE,                   smoke_geo),
     LOAD_MODEL_FROM_GEO(MODEL_SPARKLES,                sparkles_geo),
     LOAD_MODEL_FROM_GEO(MODEL_BUBBLE,                  bubble_geo),
@@ -182,6 +183,9 @@ const LevelScript script_func_global_1[] = {
     LOAD_MODEL_FROM_GEO(MODEL_BREAKABLE_BOX_NO_SHADOW, breakable_box_no_shadow_geo),
     LOAD_MODEL_FROM_GEO(MODEL_EXCLAMATION_BOX_OUTLINE, exclamation_box_outline_geo),
     LOAD_MODEL_FROM_GEO(MODEL_EXCLAMATION_BOX,         exclamation_box_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_ON_OFF_BLOCK,            OnOffBlock_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_OFF_BLOCK,               offBlock_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_ON_BLOCK,                onBlock_geo),
     LOAD_MODEL_FROM_GEO(MODEL_GOOMBA,                  goomba_geo),
     LOAD_MODEL_FROM_DL( MODEL_EXCLAMATION_POINT,       exclamation_box_outline_seg8_dl_exclamation_point, LAYER_OCCLUDE_SILHOUETTE_ALPHA),
     LOAD_MODEL_FROM_GEO(MODEL_KOOPA_SHELL,             koopa_shell_geo),
@@ -196,7 +200,7 @@ const LevelScript script_func_global_1[] = {
     LOAD_MODEL_FROM_GEO(MODEL_HEART,                   heart_geo),
     LOAD_MODEL_FROM_GEO(MODEL_FLYGUY,                  flyguy_geo),
     LOAD_MODEL_FROM_GEO(MODEL_CHUCKYA,                 chuckya_geo),
-    LOAD_MODEL_FROM_GEO(MODEL_TRAJECTORY_MARKER_BALL,      bowling_ball_track_geo),
+    LOAD_MODEL_FROM_GEO(MODEL_TRAJECTORY_MARKER_BALL,  bowling_ball_track_geo),
     RETURN(),
 };
 

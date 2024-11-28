@@ -1,0 +1,14 @@
+extern const GeoLayout actSelectRect_geo[];
+extern u8 actSelectRect_wdw_rgba16[];
+extern Vtx actSelectRect_ActSelectRects_mesh_layer_7_vtx_cull[8];
+extern Vtx actSelectRect_ActSelectRects_mesh_layer_7_vtx_0[8];
+extern Gfx actSelectRect_ActSelectRects_mesh_layer_7_tri_0[];
+extern Vtx actSelectRect_ActSelectRects_mesh_layer_1_vtx_cull[8];
+extern Vtx actSelectRect_ActSelectRects_mesh_layer_1_vtx_0[2179];
+extern Gfx actSelectRect_ActSelectRects_mesh_layer_1_tri_0[];
+extern Gfx mat_actSelectRect_f3dlite_material[];
+extern Gfx mat_revert_actSelectRect_f3dlite_material[];
+extern Gfx mat_actSelectRect_wdw[];
+extern Gfx mat_revert_actSelectRect_wdw[];
+extern Gfx actSelectRect_ActSelectRects_mesh_layer_7[];
+extern Gfx actSelectRect_ActSelectRects_mesh_layer_1[];

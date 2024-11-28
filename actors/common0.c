@@ -79,3 +79,9 @@ UNUSED static const u64 binid_17 = 17;
 
 #include "koopa_shell/model.inc.c"
 UNUSED static const u64 binid_18 = 18;
+
+#include "OnOffBlock/model.inc.c"
+#include "onBlock/model.inc.c"
+#include "offBlock/model.inc.c"
+#include "offBlock/collision.inc.c"
+#include "onBlock/collision.inc.c"

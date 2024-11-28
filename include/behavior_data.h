@@ -324,6 +324,7 @@ extern const BehaviorScript bhvBobomb[];
 extern const BehaviorScript bhvBobombFuseSmoke[];
 extern const BehaviorScript bhvBobombBuddy[];
 extern const BehaviorScript bhvBobombBuddyOpensCannon[];
+extern const BehaviorScript bhvBullyBuddy[];
 extern const BehaviorScript bhvCannonClosed[];
 extern const BehaviorScript bhvWhirlpool[];
 extern const BehaviorScript bhvJetStream[];
@@ -370,8 +371,10 @@ extern const BehaviorScript bhvMoneybagHidden[];
 extern const BehaviorScript bhvPitBowlingBall[];
 extern const BehaviorScript bhvFreeBowlingBall[];
 extern const BehaviorScript bhvBowlingBall[];
+extern const BehaviorScript bhvBowlingBallOnConveyor[];
 extern const BehaviorScript bhvTtmBowlingBallSpawner[];
 extern const BehaviorScript bhvBobBowlingBallSpawner[];
+extern const BehaviorScript bhvBowlingBallOnConveyorSpawner[];
 extern const BehaviorScript bhvThiBowlingBallSpawner[];
 extern const BehaviorScript bhvRrCruiserWing[];
 extern const BehaviorScript bhvSpindel[];
@@ -540,5 +543,8 @@ extern const BehaviorScript bhvEndBirds1[];
 extern const BehaviorScript bhvEndBirds2[];
 extern const BehaviorScript bhvIntroScene[];
 extern const BehaviorScript bhvUnusedFakeStar[];
+extern const BehaviorScript bhvActSelectWalls[];
+extern const BehaviorScript bhvOnOffBlock[];
+extern const BehaviorScript bhvOnOffPlatform[];
 
 #endif // BEHAVIOR_DATA_H

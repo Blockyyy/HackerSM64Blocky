@@ -77,7 +77,7 @@ void breakable_box_small_idle_loop(void) {
             break;
 
         case OBJ_ACT_LAVA_DEATH:
-            obj_lava_death();
+            obj_lava_death(FALSE);
             break;
 
         case OBJ_ACT_DEATH_PLANE_DEATH:

@@ -1,0 +1,11 @@
+extern void scroll_bob_dl_StartRoom_mesh_layer_1_vtx_0();
+extern void scroll_bob_dl_TTMRoom_mesh_layer_1_vtx_0();
+extern void scroll_bob_dl_TTMRoom_mesh_layer_1_vtx_4();
+extern void scroll_bob_dl_longConveyors_mesh_layer_1_vtx_0();
+extern void scroll_bob_dl_longConveyors_mesh_layer_1_vtx_4();
+extern void scroll_bob_dl_longConveyors_mesh_layer_1_vtx_5();
+extern void scroll_bob_dl_longConveyors_mesh_layer_1_vtx_6();
+extern void scroll_bob_dl_longConveyors_mesh_layer_1_vtx_7();
+extern void scroll_bob_dl_pipeRoom_mesh_layer_1_vtx_0();
+extern void scroll_bob_dl_onOffRoom_mesh_layer_1_vtx_0();
+extern void scroll_bob();

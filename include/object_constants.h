@@ -398,6 +398,11 @@ enum AnimIDsBobOmb {
     BOBOMB_ANIM_HELD
 };
 
+enum animIDsBully { // finish naming later
+    BULLY_ANIM_WALKING, 
+    BULLY_ANIM_HELD
+};
+
 /* Bob-omb Buddy */
 enum oBehParams2ndByteBobOmbBuddy {
     BOBOMB_BUDDY_BP_STYPE_GENERIC,

@@ -1,0 +1,13 @@
+extern const GeoLayout offBlock_Bone_001_opt1[];
+extern const GeoLayout offBlock_Bone_001_opt2[];
+extern const GeoLayout offBlock_geo[];
+extern u8 offBlock_exclamation_box_outline_rgba16_ia8[];
+extern Vtx offBlock_Bone_002_mesh_layer_5_vtx_0[22];
+extern Gfx offBlock_Bone_002_mesh_layer_5_tri_0[];
+extern Gfx mat_offBlock_On_001[];
+extern Gfx mat_revert_offBlock_On_001[];
+extern Gfx mat_offBlock_Off2[];
+extern Gfx mat_revert_offBlock_Off2[];
+extern Gfx offBlock_Bone_002_mesh_layer_5[];
+extern Gfx offBlock_Bone_002_mesh_layer_5_mat_override_Off2_0[];
+extern Gfx offBlock_Bone_002_mesh_layer_5_mat_override_On_001_1[];

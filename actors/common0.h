@@ -195,4 +195,17 @@ extern const GeoLayout test_platform_geo[];
 extern const Gfx unknown_seg8_dl_08026260[];
 extern const Collision unknown_seg8_collision_080262F8[];
 
+extern const GeoLayout water_bomb_geo[];
+extern const GeoLayout water_bomb_shadow_geo[];
+
+#include "OnOffBlock/geo_header.h"
+
+#include "onBlock/geo_header.h"
+
+#include "offBlock/geo_header.h"
+
+#include "offBlock/collision_header.h"
+
+#include "onBlock/collision_header.h"
+
 #endif

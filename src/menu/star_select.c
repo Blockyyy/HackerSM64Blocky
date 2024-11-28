@@ -1,3 +1,4 @@
+#include "src/game/texscroll.h"
 #include <PR/ultratypes.h>
 
 #include "audio/external.h"
@@ -70,14 +71,14 @@ void bhv_act_selector_star_type_loop(void) {
         // If a star is selected, rotate and slightly increase size
         case STAR_SELECTOR_SELECTED:
             gCurrentObject->oStarSelectorSize += 0.1f;
-            if (gCurrentObject->oStarSelectorSize > 1.3f) {
-                gCurrentObject->oStarSelectorSize = 1.3f;
+            if (gCurrentObject->oStarSelectorSize > 1.5f) {
+                gCurrentObject->oStarSelectorSize = 1.5f;
             }
             gCurrentObject->oFaceAngleYaw += 0x800;
             break;
         // If the 100 coin star is selected, rotate
         case STAR_SELECTOR_100_COINS:
-            gCurrentObject->oFaceAngleYaw += 0x800;
+            //gCurrentObject->oFaceAngleYaw += 0x800;
             break;
     }
     // Scale act selector stars depending of the type selected
@@ -98,7 +99,7 @@ void render_100_coin_star(u8 stars) {
                                                             bhvActSelectorStarType, (370 * 4.0f) / 3, 24, -300, 0, 0, 0);
         } else {
             sStarSelectorModels[6] = spawn_object_abs_with_rot(o, 0, MODEL_STAR,
-                                                            bhvActSelectorStarType, 370, 24, -300, 0, 0, 0);
+                                                            bhvActSelectorStarType, 0, -400, -300, -4095, 0, 0);
         }
     #else
         sStarSelectorModels[6] = spawn_object_abs_with_rot(o, 0, MODEL_STAR,
@@ -193,21 +194,23 @@ void bhv_act_selector_init(void) {
  * Also handles 2 star selector types whenever the star is selected
  * or not, the types are defined in bhv_act_selector_star_type_loop.
  */
+#define STAR_SPACING 200
+#define CENTER_X 600
+#define CENTER_Y 0
+#define TRANSITION_SPEED 0.1f
+
 void bhv_act_selector_loop(void) {
     s8 i;
     u8 starIndexCounter;
     u8 stars = save_file_get_star_flags(gCurrSaveFileNum - 1, COURSE_NUM_TO_INDEX(gCurrCourseNum));
 
     if (sObtainedStars != 6) {
-        // Sometimes, stars are not selectable even if they appear on the screen.
-        // This code filters selectable and non-selectable stars.
         sSelectedActIndex = 0;
         handle_menu_scrolling(MENU_SCROLL_HORIZONTAL, &sSelectableStarIndex, 0, sObtainedStars);
         starIndexCounter = sSelectableStarIndex;
         for (i = 0; i < sVisibleStars; i++) {
-            // Can the star be selected (is it either already completed or the first non-completed mission)
             if ((stars & (1 << i)) || i + 1 == sInitSelectedActNum) {
-                if (starIndexCounter == 0) { // We have reached the sSelectableStarIndex-th selectable star.
+                if (starIndexCounter == 0) {
                     sSelectedActIndex = i;
                     break;
                 }
@@ -215,18 +218,24 @@ void bhv_act_selector_loop(void) {
             }
         }
     } else {
-        // If all stars are collected then they are all selectable.
         handle_menu_scrolling(MENU_SCROLL_HORIZONTAL, &sSelectableStarIndex, 0, sVisibleStars - 1);
         sSelectedActIndex = sSelectableStarIndex;
     }
 
-    // Star selector type handler
+    s32 targetOffset = CENTER_X + (sVisibleStars * -STAR_SPACING / 2) + (sSelectedActIndex * STAR_SPACING);
+
     for (i = 0; i < sVisibleStars; i++) {
         if (sSelectedActIndex == i) {
             sStarSelectorModels[i]->oStarSelectorType = STAR_SELECTOR_SELECTED;
         } else {
             sStarSelectorModels[i]->oStarSelectorType = STAR_SELECTOR_NOT_SELECTED;
         }
+
+        s32 targetX = (i * STAR_SPACING) - targetOffset;
+
+        sStarSelectorModels[i]->oPosX += (targetX - sStarSelectorModels[i]->oPosX) * TRANSITION_SPEED;
+        sStarSelectorModels[i]->oPosY = CENTER_Y;
+        sStarSelectorModels[i]->oPosZ = 80;
     }
 }
 
@@ -278,6 +287,14 @@ void print_course_number(void) {
 }
 
 #define ACT_NAME_X 163
+
+// 0x0200EDA8 - 0x0200EDE8
+static const Vtx vertex_text_bg_box[] = {
+    {{{     0,    -80,      0}, 0, {     0,      0}, {0xff, 0xff, 0xff, 0xff}}},
+    {{{   130,    -80,      0}, 0, {     0,      0}, {0xff, 0xff, 0xff, 0xff}}},
+    {{{   130,      0,      0}, 0, {     0,      0}, {0xff, 0xff, 0xff, 0xff}}},
+    {{{     0,      0,      0}, 0, {     0,      0}, {0xff, 0xff, 0xff, 0xff}}},
+};
 
 /**
  * Print act selector strings, some with special checks.
@@ -333,37 +350,58 @@ void print_act_selector_strings(void) {
     // Print the coin highscore.
     gSPDisplayList(gDisplayListHead++, dl_rgba16_text_begin);
     gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255);
-    print_hud_my_score_coins(1, gCurrSaveFileNum - 1, COURSE_NUM_TO_INDEX(gCurrCourseNum), 155, 106);
+    //print_hud_my_score_coins(1, gCurrSaveFileNum - 1, COURSE_NUM_TO_INDEX(gCurrCourseNum), 155, 106);
     gSPDisplayList(gDisplayListHead++, dl_rgba16_text_end);
 
     gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
     gDPSetEnvColor(gDisplayListHead++, 0, 0, 0, 255);
-    // Print the "MY SCORE" text if the coin score is more than 0
-    if (save_file_get_course_coin_score(gCurrSaveFileNum - 1, COURSE_NUM_TO_INDEX(gCurrCourseNum)) != 0) {
+
 #if MULTILANG
-        print_generic_string(95, 118, myScore[language]);
+    print_generic_string(get_str_x_pos_from_center(161, (currLevelName + 3), 10.0f), 33, currLevelName + 3);
 #else
-        print_generic_string(102, 118, myScore);
+    lvlNameX = get_str_x_pos_from_center(160, currLevelName + 3, 10.0f);
+    print_generic_string(lvlNameX + 1, 179, currLevelName + 3);
 #endif
-    }
+
+    gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
+
+    gSPDisplayList(gDisplayListHead++, dl_ia_text_begin);
+    gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255);
 
 #if MULTILANG
     print_generic_string(get_str_x_pos_from_center(160, (currLevelName + 3), 10.0f), 33, currLevelName + 3);
 #else
     lvlNameX = get_str_x_pos_from_center(160, currLevelName + 3, 10.0f);
-    print_generic_string(lvlNameX, 33, currLevelName + 3);
+    print_generic_string(lvlNameX, 180, currLevelName + 3);
 #endif
 
     gSPDisplayList(gDisplayListHead++, dl_ia_text_end);
 
 #if MULTILANG
-    print_course_number(language);
+    //print_course_number(language);
 #else
-    print_course_number();
+    //print_course_number();
 #endif
 
+    //
     gSPDisplayList(gDisplayListHead++, dl_menu_ia8_text_begin);
     gDPSetEnvColor(gDisplayListHead++, 0, 0, 0, 255);
+    // Print the name of the selected act.
+    if (sVisibleStars != 0) {
+        selectedActName = segmented_to_virtual(actNameTbl[COURSE_NUM_TO_INDEX(gCurrCourseNum) * 6 + sSelectedActIndex]);
+
+#if MULTILANG
+        print_menu_generic_string(get_str_x_pos_from_center(ACT_NAME_X + 1, selectedActName, 8.0f), 81 + 1, selectedActName);
+#else
+        actNameX = get_str_x_pos_from_center(ACT_NAME_X, selectedActName, 8.0f);
+        print_menu_generic_string(actNameX + 1, 180 + 1, selectedActName);
+#endif
+    }
+
+    gSPDisplayList(gDisplayListHead++, dl_menu_ia8_text_end);
+
+    gSPDisplayList(gDisplayListHead++, dl_menu_ia8_text_begin);
+    gDPSetEnvColor(gDisplayListHead++, 255, 255, 255, 255);
     // Print the name of the selected act.
     if (sVisibleStars != 0) {
         selectedActName = segmented_to_virtual(actNameTbl[COURSE_NUM_TO_INDEX(gCurrCourseNum) * 6 + sSelectedActIndex]);
@@ -372,21 +410,13 @@ void print_act_selector_strings(void) {
         print_menu_generic_string(get_str_x_pos_from_center(ACT_NAME_X, selectedActName, 8.0f), 81, selectedActName);
 #else
         actNameX = get_str_x_pos_from_center(ACT_NAME_X, selectedActName, 8.0f);
-        print_menu_generic_string(actNameX, 81, selectedActName);
-#endif
-    }
-
-    // Print the numbers above each star.
-    for (i = 1; i <= sVisibleStars; i++) {
-        starNumbers[0] = i;
-#if MULTILANG
-        print_menu_generic_string(143 - sVisibleStars * 15 + i * 30, 38, starNumbers);
-#else
-        print_menu_generic_string(139 - sVisibleStars * 17 + i * 34, 38, starNumbers);
+        print_menu_generic_string(actNameX, 180, selectedActName);
 #endif
     }
 
     gSPDisplayList(gDisplayListHead++, dl_menu_ia8_text_end);
+
+    print_text_fmt_int(109, 75, "EPISODE %d",sSelectedActIndex + 1);
  }
 
 /**
@@ -443,7 +473,19 @@ s32 lvl_update_obj_and_load_act_button_actions(UNUSED s32 arg, UNUSED s32 unused
         }
     }
 
-    area_update_objects();
+    area_update_objects(); scroll_textures();
     sActSelectorMenuTimer++;
     return sLoadedActNum;
 }
+
+typedef struct {
+    int key;
+    int value;
+} CourseBparam;
+
+// Create the table as an array of structs
+CourseBparam sCourseToBparam[] = { // course, animstate
+    {COURSE_BOB, 0},
+    {COURSE_WF, 1},
+    {COURSE_DDD, 0},
+};

@@ -92,6 +92,34 @@ Gfx *geo_update_layer_transparency(s32 callContext, struct GraphNode *node, UNUS
     return dlStart;
 }
 
+Gfx *geo_set_primitive_color_with_id(s32 callContext, struct GraphNode *node, UNUSED void *context) {
+    static s16 r = 255;
+    static s16 g, b, a;
+
+    struct Object *curObj;
+    Gfx *dlStart, *dlHead = NULL;;
+    struct GraphNodeGenerated *currentGraphNode = (struct GraphNodeGenerated *) node;
+
+    if(callContext == GEO_CONTEXT_RENDER){
+
+        curObj = (struct Object *) gCurGraphNodeObject;
+                r = GET_BPARAM1(curObj->oBehParams);
+        g = GET_BPARAM2(curObj->oBehParams);
+        b = GET_BPARAM3(curObj->oBehParams);
+        a = GET_BPARAM4(curObj->oBehParams);
+        dlStart = alloc_display_list(sizeof(Gfx) * 2);
+        dlHead = dlStart;
+
+
+        gDPSetPrimColor(dlHead++, 0, 0, 255, 0, 0, 255);
+
+        gSPEndDisplayList(dlHead);
+        currentGraphNode->fnNode.node.flags |= (LAYER_OPAQUE << 8);
+
+    }
+    return dlStart;
+}
+
 Gfx *geo_switch_anim_state(s32 callContext, struct GraphNode *node, UNUSED void *context) {
     if (callContext == GEO_CONTEXT_RENDER) {
         struct Object *obj = gCurGraphNodeObjectNode;

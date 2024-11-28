@@ -55,7 +55,7 @@ struct MacroPreset MacroObjectPresets[] = {
     {bhvCirclingAmp,                    MODEL_AMP,                          0}, // macro_circling_amp
     {bhvYellowCoin,                     MODEL_UNKNOWN_7D,                   0}, // macro_unknown_40 - unused (was bhvCarrySomething1)
     {bhvBetaTrampolineTop,              MODEL_TRAMPOLINE,                   0}, // macro_beta_trampoline_top - unused
-    {bhvFreeBowlingBall,                MODEL_BOWLING_BALL,                 0}, // macro_free_bowling_ball - unused
+    {bhvBowlingBallOnConveyor,          MODEL_BOWLING_BALL,                 0}, // macro_free_bowling_ball - unused
     {bhvSnufit,                         MODEL_SNUFIT,                       0}, // macro_snufit
     {bhvRecoveryHeart,                  MODEL_HEART,                        0}, // macro_recovery_heart
     {bhv1upSliding,                     MODEL_1UP,                          0}, // macro_1up_sliding

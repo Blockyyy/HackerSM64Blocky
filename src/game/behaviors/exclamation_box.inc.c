@@ -164,3 +164,108 @@ void bhv_exclamation_box_loop(void) {
     cur_obj_scale(2.0f);
     cur_obj_call_action_function(sExclamationBoxActions);
 }
+
+u8 currentSwitchState = 1;
+
+struct ObjectHitbox sOnOffBlockHitbox = {
+    .interactType      = INTERACT_BREAKABLE,
+    .downOffset        = 5,
+    .damageOrCoinValue = 0,
+    .health            = 1,
+    .numLootCoins      = 0,
+    .radius            = 40,
+    .height            = 30,
+    .hurtboxRadius     = 40,
+    .hurtboxHeight     = 30,
+};
+
+void bhv_on_off_block_init(void) {
+    currentSwitchState = 1;
+    bhv_init_room();
+    cur_obj_scale(2.0f);
+    obj_set_hitbox(o, &sExclamationBoxHitbox);
+    o->oOpacity = 255;
+}
+
+void bhv_on_off_block_loop(void) {
+    load_object_collision_model();
+
+    o->oAnimState = currentSwitchState % 2;
+
+    if (o->oAction == 0) {
+        if (o->oSubAction > 0) {
+
+            o->oInteractStatus = 0;
+
+            if (o->oTimer >= 30) {
+                o->oSubAction = 0;
+            }
+        }
+            
+        if (cur_obj_was_attacked_or_ground_pounded()) {
+            o->oAction = 1;
+            o->oTimer = 0;
+        }
+
+        o->oInteractStatus = 0;
+    } else {
+        cur_obj_move_using_fvel_and_gravity();
+        if (o->oVelY < 0.0f) {
+            o->oVelY = 0.0f;
+            o->oGravity = 0.0f;
+        }
+
+        float scaleAngleOffset = (o->oAction == 1) ? 1.0f : -1.0f;
+        o->oGraphYOffset = ((-sins(o->oExclamationBoxScaleAngle) + 1.0f) * 26.0f);
+        o->oExclamationBoxHorizontalScale = ((-sins(o->oExclamationBoxScaleAngle) + 1.0f) * 0.5f) + 1.0f;
+        o->oExclamationBoxVerticalScale = ((sins(o->oExclamationBoxScaleAngle) + 1.0f) * 0.5f) + 0.0f;
+        o->oExclamationBoxScaleAngle += (0x1000 * scaleAngleOffset);
+
+        obj_scale_xyz(o,
+            (o->oExclamationBoxHorizontalScale * 2.0f),
+            (o->oExclamationBoxVerticalScale * 2.0f),
+            (o->oExclamationBoxHorizontalScale * 2.0f)
+        );
+
+        if (o->oTimer == 7) {
+            if (o->oAction == 1) {
+                o->oAction = 2;
+                currentSwitchState++;
+                //o->oAnimState++;
+                play_sound(SOUND_GENERAL2_SWITCH_TICK_SLOW, gGlobalSoundSource);
+            } else if (o->oAction == 2) {
+                o->oAction = 0;
+                o->oSubAction = 1;
+                o->oTimer = 0;
+                cur_obj_scale(2.0f);
+            }
+
+            o->oTimer = 0;
+            o->oGraphYOffset = 0;
+            o->oExclamationBoxHorizontalScale = 1.0f;
+            o->oExclamationBoxVerticalScale = 1.0f;
+        }
+    }
+}
+
+void bhv_on_off_platform_init(void) {
+    currentSwitchState = 1;
+    bhv_init_room();
+    obj_scale_xyz(o,
+        GET_BPARAM2(o->oBehParams) * 2,
+        GET_BPARAM3(o->oBehParams) * 2,
+        GET_BPARAM4(o->oBehParams) * 2
+    );
+
+    o->oCollisionDistance = 65535;
+}
+
+// 0 = blue
+// 1 = red
+
+void bhv_on_off_platform_loop(void) {
+    o->oAnimState = currentSwitchState % 2;
+    if (o->oAnimState == GET_BPARAM1(o->oBehParams)) {
+        load_object_collision_model();
+    }
+}

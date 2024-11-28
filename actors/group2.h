@@ -21,6 +21,7 @@ extern const Gfx bully_seg5_dl_05003878[];
 extern const Gfx bully_seg5_dl_05003CD0[];
 extern const Gfx bully_seg5_dl_05003D08[];
 extern const Gfx bully_seg5_dl_05003D40[];
+extern const Gfx bully_buddy_dl[];
 extern const Gfx bully_seg5_dl_05003E38[];
 extern const Gfx bully_seg5_dl_05003E70[];
 extern const Gfx bully_seg5_dl_05003EA8[];

@@ -75,6 +75,7 @@ const LevelScript level_main_menu_entry_act_select[] = {
 
     AREA(/*index*/ 2, geo_menu_act_selector_strings),
         OBJECT(/*model*/ MODEL_NONE, /*pos*/ 0, -100, 0, /*angle*/ 0, 0, 0, /*behParam*/ BP(0x04, 0x00, 0x00, 0x00), /*beh*/ bhvActSelector),
+        OBJECT(/*model*/ MODEL_ACT_SELECT_RECTS, /*pos*/ 0, -100, 0, /*angle*/ 0, 0, 0, /*behParam*/ BP(0x00, 0x00, 0x00, 0x00), /*beh*/ bhvStaticObject),
         TERRAIN(/*terrainData*/ main_menu_seg7_collision),
     END_AREA(),
 

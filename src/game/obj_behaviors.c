@@ -647,7 +647,7 @@ void obj_check_floor_death(s16 collisionFlags, struct Surface *floor) {
  * Controls an object dying in lava by creating smoke, sinking the object, playing
  * audio, and eventually despawning it. Returns TRUE when the obj is dead.
  */
-s32 obj_lava_death(void) {
+s32 obj_lava_death(u8 withoutSound) {
     struct Object *deathSmoke;
 
     if (o->oTimer > 30) {
@@ -659,7 +659,9 @@ s32 obj_lava_death(void) {
     }
 
     if ((o->oTimer % 8) == 0) {
-        cur_obj_play_sound_2(SOUND_OBJ_BULLY_EXPLODE_LAVA);
+        if (withoutSound == FALSE) {
+            cur_obj_play_sound_2(SOUND_OBJ_BULLY_EXPLODE_LAVA);
+        }
         deathSmoke = spawn_object(o, MODEL_SMOKE, bhvBobombBullyDeathSmoke);
         deathSmoke->oPosX += random_float() * 20.0f;
         deathSmoke->oPosY += random_float() * 20.0f;

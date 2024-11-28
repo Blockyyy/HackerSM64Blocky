@@ -117,7 +117,7 @@ void generic_bobomb_free_loop(void) {
             break;
 
         case OBJ_ACT_LAVA_DEATH:
-            if (obj_lava_death()) {
+            if (obj_lava_death(FALSE)) {
                 create_respawner(MODEL_BLACK_BOBOMB, bhvBobomb, 3000);
             }
             break;
@@ -146,7 +146,7 @@ void stationary_bobomb_free_loop(void) {
             break;
 
         case OBJ_ACT_LAVA_DEATH:
-            if (obj_lava_death()) {
+            if (obj_lava_death(FALSE)) {
                 create_respawner(MODEL_BLACK_BOBOMB, bhvBobomb, 3000);
             }
             break;

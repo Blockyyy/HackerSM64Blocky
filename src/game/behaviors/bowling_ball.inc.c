@@ -287,3 +287,47 @@ void bhv_free_bowling_ball_loop(void) {
             break;
     }
 }
+
+void bhv_bowling_ball_on_conveyor_spawner_loop(void) {
+    if ((o->oTimer % GET_BPARAM1(o->oBehParams)) == 0) { /* Modulus */
+        //if (is_point_within_radius_of_mario(o->oPosX, o->oPosY, o->oPosZ, o->oBBallSpawnerMaxSpawnDist)) {
+            struct Object *bowlingBall = spawn_object(o, MODEL_BOWLING_BALL, bhvBowlingBallOnConveyor);
+            bowlingBall->oBehParams = o->oBehParams;
+            bowlingBall->oBehParams2ndByte = o->oBehParams2ndByte;
+            bowlingBall->oFaceAngleYaw = o->oFaceAngleYaw;
+            bowlingBall->oMoveAngleYaw = o->oMoveAngleYaw;
+        //}
+    }
+}
+
+void bhv_bowling_ball_on_conveyor_init(void) {
+    bhv_init_room();
+    o->oGravity = 4.0f;
+    o->oFriction = 1.0f;
+    o->oBuoyancy = 2.0f;
+    obj_set_hitbox(o, &sBowlingBallHitbox);
+    cur_obj_scale(GET_BPARAM3(o->oBehParams) + (GET_BPARAM4(o->oBehParams) * 0.1));
+}
+
+void bhv_bowling_ball_on_conveyor_loop(void) {
+
+    o->oInteractStatus = 0;
+
+    if (o->oAction >= OBJ_ACT_LAVA_DEATH) {
+        obj_lava_death(TRUE);
+    } else {
+
+        s16 collisionFlags = object_step();
+
+        obj_check_floor_death(collisionFlags, sObjFloor);
+
+        if (o->oFloor != NULL && o->oPosY == o->oFloorHeight) {
+            if (sObjFloor->type == SURFACE_KILL_OBJ) {
+                obj_mark_for_deletion(o);
+            }
+            o->oForwardVel = o->oBehParams2ndByte;
+        }
+        cur_obj_play_sound_1(SOUND_ENV_BOWLING_BALL_ROLL);
+        set_object_visibility(o, 3000);
+    }
+}

@@ -1194,7 +1194,7 @@ the Long Jump? Run, press\n\
 [Z], then jump!"))
 
 DEFINE_DIALOG(DIALOG_095, 1, 4, 30, 200, _("\
-To read a sign, stand in\n\
+:SHAKE 1:To read a sign, stand in\n\
 front of it and press [B],\n\
 like you did just now.\n\
 \n\

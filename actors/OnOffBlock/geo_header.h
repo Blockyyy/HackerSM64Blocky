@@ -1,0 +1,16 @@
+extern const GeoLayout OnOffBlock_Bone_001_opt1[];
+extern const GeoLayout OnOffBlock_Bone_001_opt2[];
+extern const GeoLayout OnOffBlock_geo[];
+extern u8 OnOffBlock_off_ci4[];
+extern u8 OnOffBlock_off_pal_rgba16[];
+extern u8 OnOffBlock_on_ci4[];
+extern u8 OnOffBlock_on_pal_rgba16[];
+extern Vtx OnOffBlock_Bone_002_mesh_layer_1_vtx_0[47];
+extern Gfx OnOffBlock_Bone_002_mesh_layer_1_tri_0[];
+extern Gfx mat_OnOffBlock_Off[];
+extern Gfx mat_revert_OnOffBlock_Off[];
+extern Gfx mat_OnOffBlock_On[];
+extern Gfx mat_revert_OnOffBlock_On[];
+extern Gfx OnOffBlock_Bone_002_mesh_layer_1[];
+extern Gfx OnOffBlock_Bone_002_mesh_layer_1_mat_override_On_0[];
+extern Gfx OnOffBlock_Bone_002_mesh_layer_1_mat_override_Off_1[];

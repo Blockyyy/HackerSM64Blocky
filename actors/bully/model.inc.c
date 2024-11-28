@@ -82,6 +82,15 @@ ALIGNED8 static const Texture bully_seg5_texture_05002468[] = {
 #include "actors/bully/bully_eye.rgba16.inc.c"
 };
 
+ALIGNED8 static const Texture bully_buddy_left[] = {
+#include "actors/bully/bully_buddy_left.rgba16.inc.c"
+};
+
+// 0x05001468
+ALIGNED8 static const Texture bully_buddy_right[] = {
+#include "actors/bully/bully_buddy_right.rgba16.inc.c"
+};
+
 // 0x05002C68
 static const Vtx bully_seg5_vertex_05002C68[] = {
     {{{    27,    -35,      0}, 0, {     0,      0}, {0x0c, 0x82, 0x04, 0x00}}},
@@ -413,6 +422,24 @@ static const Vtx bully_seg5_vertex_05003C90[] = {
     {{{     0,     57,      0}, 0, {     0,      0}, {0xff, 0xff, 0xff, 0xff}}},
 };
 
+const Gfx bully_buddy_left_dl[] = {
+    gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, bully_buddy_left),
+    gsDPLoadSync(),
+    gsDPLoadBlock(G_TX_LOADTILE, 0, 0, 32 * 64 - 1, CALC_DXT(32, G_IM_SIZ_16b_BYTES)),
+    gsSPVertex(bully_seg5_vertex_05003C50, 4, 0),
+    gsSP2Triangles( 0,  1,  2, 0x0,  0,  3,  1, 0x0),
+    gsSPEndDisplayList(),
+};
+
+const Gfx bully_buddy_right_dl[] = {
+    gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, bully_buddy_right),
+    gsDPLoadSync(),
+    gsDPLoadBlock(G_TX_LOADTILE, 0, 0, 32 * 64 - 1, CALC_DXT(32, G_IM_SIZ_16b_BYTES)),
+    gsSPVertex(bully_seg5_vertex_05003C90, 4, 0),
+    gsSP2Triangles( 0,  1,  2, 0x0,  0,  3,  1, 0x0),
+    gsSPEndDisplayList(),
+};
+
 // 0x05003CD0 - 0x05003D08
 const Gfx bully_seg5_dl_05003CD0[] = {
     gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, bully_seg5_texture_05000468),
@@ -445,6 +472,24 @@ const Gfx bully_seg5_dl_05003D40[] = {
     gsDPSetTileSize(0, 0, 0, (32 - 1) << G_TEXTURE_IMAGE_FRAC, (64 - 1) << G_TEXTURE_IMAGE_FRAC),
     gsSPDisplayList(bully_seg5_dl_05003CD0),
     gsSPDisplayList(bully_seg5_dl_05003D08),
+    gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_OFF),
+    gsDPPipeSync(),
+    gsDPSetCombineMode(G_CC_SHADE, G_CC_SHADE),
+    gsSPSetGeometryMode(G_LIGHTING),
+    gsSPEndDisplayList(),
+};
+
+const Gfx bully_buddy_dl[] = {
+    gsDPPipeSync(),
+    gsDPSetCombineMode(G_CC_DECALRGBA, G_CC_DECALRGBA),
+    gsSPClearGeometryMode(G_LIGHTING),
+    gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, G_TX_LOADTILE, 0, G_TX_WRAP | G_TX_NOMIRROR, G_TX_NOMASK, G_TX_NOLOD, G_TX_WRAP | G_TX_NOMIRROR, G_TX_NOMASK, G_TX_NOLOD),
+    gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
+    gsDPTileSync(),
+    gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, G_TX_RENDERTILE, 0, G_TX_CLAMP, 6, G_TX_NOLOD, G_TX_CLAMP, 5, G_TX_NOLOD),
+    gsDPSetTileSize(0, 0, 0, (32 - 1) << G_TEXTURE_IMAGE_FRAC, (64 - 1) << G_TEXTURE_IMAGE_FRAC),
+    gsSPDisplayList(bully_buddy_left_dl),
+    gsSPDisplayList(bully_buddy_right_dl),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_OFF),
     gsDPPipeSync(),
     gsDPSetCombineMode(G_CC_SHADE, G_CC_SHADE),
